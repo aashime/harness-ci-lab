@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harness-ci-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: harness-ci-lab
+  template:
+    metadata:
+      labels:
+        app: harness-ci-lab
+    spec:
+      containers:
+        - name: harness-ci-lab
+          image: aashime/harness-ci-lab:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
