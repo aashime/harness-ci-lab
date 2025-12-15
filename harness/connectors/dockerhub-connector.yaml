@@ -1,0 +1,15 @@
+connector:
+  name: dockerhub-connector
+  identifier: dockerhubconnector
+  type: DockerRegistry
+  spec:
+    dockerRegistryUrl: https://index.docker.io/v2/
+    providerType: DockerHub
+    auth:
+      type: UsernamePassword
+      spec:
+        username: aashime
+        passwordRef: dockerhub-token
+    executeOnDelegate: false
+  projectIdentifier: default_project
+  orgIdentifier: default

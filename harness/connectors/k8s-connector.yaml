@@ -1,0 +1,11 @@
+connector:
+  name: k8s-connector
+  identifier: k8sconnector
+  type: K8sCluster
+  spec:
+    credential:
+      type: InheritFromDelegate
+    delegateSelectors:
+      - helm-delegate
+  projectIdentifier: default_project
+  orgIdentifier: default

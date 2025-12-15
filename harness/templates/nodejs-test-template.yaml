@@ -1,0 +1,17 @@
+template:
+  name: nodejs-test-template
+  identifier: nodejstesttemplate
+  versionLabel: v1
+  type: Step
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  spec:
+    type: Run
+    spec:
+      connectorRef: dockerhubconnector
+      image: node:18
+      shell: Sh
+      command: |-
+        npm install
+        npm test

@@ -1,0 +1,11 @@
+infrastructureDefinition:
+  name: eks-cluster
+  identifier: ekscluster
+  projectIdentifier: default_project
+  orgIdentifier: default
+  environmentRef: dev
+  type: KubernetesDirect
+  spec:
+    connectorRef: k8sconnector
+    namespace: default
+    releaseName: release-<+INFRA_KEY>

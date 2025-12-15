@@ -1,0 +1,22 @@
+service:
+  name: harness-ci-lab-svc
+  identifier: harnesscilabsvc
+  projectIdentifier: default_project
+  orgIdentifier: default
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      manifests:
+        - manifest:
+            identifier: manifest
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: githubconnector
+                  gitFetchType: Branch
+                  paths:
+                    - k8s/
+                  branch: main
+              skipResourceVersioning: false

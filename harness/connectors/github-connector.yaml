@@ -1,0 +1,21 @@
+connector:
+  name: github-connector
+  identifier: githubconnector
+  type: Github
+  spec:
+    url: https://github.com/aashime/harness-ci-lab
+    validationRepo: harness-ci-lab
+    authentication:
+      type: Http
+      spec:
+        type: UsernameToken
+        spec:
+          username: aashime
+          tokenRef: github-token
+    apiAccess:
+      type: Token
+      spec:
+        tokenRef: github-token
+    executeOnDelegate: false
+  projectIdentifier: default_project
+  orgIdentifier: default

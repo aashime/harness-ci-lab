@@ -1,0 +1,126 @@
+pipeline:
+  identifier: cipipeline
+  name: ci-pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: githubconnector
+        build:
+          type: branch
+          spec:
+            branch: main
+  stages:
+    - stage:
+        identifier: buildandpush
+        type: CI
+        name: build-and-push
+        description: ""
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: k8sconnector
+              namespace: harness-builds
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  identifier: Run_Tests
+                  type: Run
+                  name: Run Tests
+                  spec:
+                    connectorRef: dockerhubconnector
+                    image: node:18
+                    shell: Sh
+                    command: |-
+                      npm install
+                      npm test
+              - step:
+                  identifier: Build_and_Push
+                  type: BuildAndPushDockerRegistry
+                  name: Build and Push
+                  spec:
+                    connectorRef: dockerhubconnector
+                    repo: aashime/harness-ci-lab
+                    tags:
+                      - latest
+                      - <+pipeline.sequenceId>
+    - stage:
+        identifier: deploytok8s
+        type: Deployment
+        name: deploy-to-k8s
+        description: ""
+        spec:
+          deploymentType: Kubernetes
+          service:
+            serviceRef: harnesscilabsvc
+          environment:
+            environmentRef: dev
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: ekscluster
+          execution:
+            steps:
+              - stepGroup:
+                  identifier: canaryDeployment
+                  name: Canary Deployment
+                  steps:
+                    - step:
+                        identifier: canaryDeployment
+                        type: K8sCanaryDeploy
+                        name: Canary Deployment
+                        timeout: 10m
+                        spec:
+                          instanceSelection:
+                            type: Count
+                            spec:
+                              count: 1
+                          skipDryRun: false
+                    - step:
+                        identifier: canaryDelete
+                        type: K8sCanaryDelete
+                        name: Canary Delete
+                        timeout: 10m
+                        spec: {}
+              - stepGroup:
+                  identifier: primaryDeployment
+                  name: Primary Deployment
+                  steps:
+                    - step:
+                        identifier: rollingDeployment
+                        type: K8sRollingDeploy
+                        name: Rolling Deployment
+                        timeout: 10m
+                        spec:
+                          skipDryRun: false
+            rollbackSteps:
+              - step:
+                  identifier: rollbackCanaryDelete
+                  type: K8sCanaryDelete
+                  name: Canary Delete
+                  timeout: 10m
+                  spec: {}
+              - step:
+                  identifier: rollingRollback
+                  type: K8sRollingRollback
+                  name: Rolling Rollback
+                  timeout: 10m
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
