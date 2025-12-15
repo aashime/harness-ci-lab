@@ -1,0 +1,17 @@
+{
+  "name": "harness-ci-lab",
+  "version": "1.0.0",
+  "description": "Sample Node.js app for Harness CI Lab",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest --coverage"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  }
+}
