@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harness CI/CD Lab Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #ffffff;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 3px solid #00d4aa;
+            page-break-after: always;
+        }
+
+        .slide-title {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            text-align: center;
+        }
+
+        .slide-title h1 {
+            font-size: 3.5em;
+            color: #00d4aa;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .slide-title h2 {
+            font-size: 1.8em;
+            color: #a0a0a0;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .slide-title h3 {
+            font-size: 1.3em;
+            color: #606060;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00d4aa;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.3em;
+            line-height: 1.6;
+            color: #c0c0c0;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #a0a0a0;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+
+        ul {
+            font-size: 1.3em;
+            line-height: 2;
+            margin-left: 40px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #00d4aa;
+        }
+
+        .arrow {
+            color: #ff6b6b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 1.1em;
+        }
+
+        th {
+            background: #00d4aa;
+            color: #1a1a2e;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 30px;
+        }
+
+        .box {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid #00d4aa;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #0d0d1a;
+            border-radius: 10px;
+            padding: 25px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid #00d4aa;
+        }
+
+        .flow-diagram {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .flow-arrow {
+            color: #00d4aa;
+            font-size: 1.5em;
+        }
+
+        .screenshot {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 2px solid #333;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .check {
+            color: #00d4aa;
+        }
+
+        .comparison-table td:first-child {
+            color: #ff6b6b;
+        }
+
+        .comparison-table td:last-child {
+            color: #00d4aa;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 1em;
+            color: #606060;
+        }
+
+        .big-number {
+            font-size: 4em;
+            color: #00d4aa;
+            font-weight: bold;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .link {
+            color: #00d4aa;
+            word-break: break-all;
+        }
+
+        @media print {
+            .slide {
+                page-break-after: always;
+                min-height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<div class="slide slide-title">
+    <h1>From Slow, Risky Releases to<br>Confident Daily Deployments</h1>
+    <h2>How High-Growth Engineering Teams Use Harness to Ship Faster Without Breaking Production</h2>
+    <h3>Enterprise CI/CD on Kubernetes — Built for Scale, Security, and Speed</h3>
+    <div class="footer center">
+        <p>Ashime | December 2025</p>
+    </div>
+</div>
+
+<!-- Slide 2: The Problem -->
+<div class="slide">
+    <h1>Why Software Delivery Is Still a Bottleneck</h1>
+    <p class="subtitle">Most teams don't have a tooling problem — they have a delivery confidence problem.</p>
+
+    <ul>
+        <li>Releases take days or weeks <span class="arrow">→</span> <span class="highlight">Slower innovation</span></li>
+        <li>Script-driven deployments <span class="arrow">→</span> <span class="highlight">Fragile processes</span></li>
+        <li>Limited visibility <span class="arrow">→</span> <span class="highlight">Slow recovery</span></li>
+        <li>Too many tools <span class="arrow">→</span> <span class="highlight">Operational overhead</span></li>
+        <li>Manual rollbacks <span class="arrow">→</span> <span class="highlight">Higher outage risk</span></li>
+        <li>Manual audits <span class="arrow">→</span> <span class="highlight">Compliance gaps</span></li>
+    </ul>
+</div>
+
+<!-- Slide 3: The Solution -->
+<div class="slide">
+    <h1>Harness: One Platform to Build, Deploy & Operate</h1>
+    <p class="subtitle">Harness replaces fragmented CI/CD tooling with a single, secure, Kubernetes-native platform.</p>
+
+    <div class="two-column">
+        <div>
+            <ul>
+                <li><span class="check">✓</span> Unified CI & CD</li>
+                <li><span class="check">✓</span> Built-in deployment strategies</li>
+                <li><span class="check">✓</span> Delegate-based security model</li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li><span class="check">✓</span> Templates & reusability</li>
+                <li><span class="check">✓</span> Governance and audit readiness</li>
+                <li><span class="check">✓</span> Kubernetes-native</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: What I Built -->
+<div class="slide">
+    <h1>Lab Demo: What I Built</h1>
+    <p class="subtitle">End-to-end CI/CD implementation with enterprise-grade deployment strategy</p>
+
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Implementation</th>
+        </tr>
+        <tr>
+            <td><strong>Infrastructure</strong></td>
+            <td>Amazon EKS cluster (2 nodes, us-east-1)</td>
+        </tr>
+        <tr>
+            <td><strong>CI Pipeline</strong></td>
+            <td>Build → Test → Push to DockerHub</td>
+        </tr>
+        <tr>
+            <td><strong>CD Pipeline</strong></td>
+            <td>Canary deployment to Kubernetes</td>
+        </tr>
+        <tr>
+            <td><strong>Bonus</strong></td>
+            <td>Reusable step template</td>
+        </tr>
+    </table>
+
+    <div class="box center">
+        <p><strong>Live Application:</strong><br>
+        <span class="link">http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com</span></p>
+    </div>
+</div>
+
+<!-- Slide 5: Architecture -->
+<div class="slide">
+    <h1>Solution Architecture</h1>
+
+    <div class="flow-diagram">
+        <p>
+            <strong>GitHub</strong> <span class="flow-arrow">→</span>
+            <strong>Harness CI</strong> <span class="flow-arrow">→</span>
+            <strong>DockerHub</strong> <span class="flow-arrow">→</span>
+            <strong>Harness CD</strong> <span class="flow-arrow">→</span>
+            <strong>Amazon EKS</strong>
+        </p>
+        <br>
+        <p style="color: #00d4aa;">↑ Harness Delegate (runs inside cluster, outbound-only)</p>
+    </div>
+
+    <div class="two-column">
+        <div class="box">
+            <h3>Security Model</h3>
+            <ul>
+                <li>Delegate runs inside customer infrastructure</li>
+                <li>Outbound connections only</li>
+                <li>No firewall ports required</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Key Benefits</h3>
+            <ul>
+                <li>Credentials never leave network</li>
+                <li>Single platform for CI + CD</li>
+                <li>Enterprise-grade security</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 6: Connectors -->
+<div class="slide">
+    <h1>Connectors — Configure Once, Use Everywhere</h1>
+
+    <table>
+        <tr>
+            <th>Connector</th>
+            <th>Purpose</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>github-connector</td>
+            <td>Source code repository</td>
+            <td><span class="check">✓</span> Connected</td>
+        </tr>
+        <tr>
+            <td>dockerhub-connector</td>
+            <td>Container registry</td>
+            <td><span class="check">✓</span> Connected</td>
+        </tr>
+        <tr>
+            <td>k8s-connector</td>
+            <td>EKS cluster (via Delegate)</td>
+            <td><span class="check">✓</span> Connected</td>
+        </tr>
+    </table>
+
+    <img src="screenshots/connectors.png" alt="Connectors Screenshot" class="screenshot">
+</div>
+
+<!-- Slide 7: Pipeline -->
+<div class="slide">
+    <h1>CI/CD Pipeline — Visual + YAML</h1>
+
+    <div class="two-column">
+        <div>
+            <h3>Stage 1: CI (build-and-push)</h3>
+            <ul>
+                <li>Clone repository from GitHub</li>
+                <li>Run tests (npm test)</li>
+                <li>Build & Push Docker image</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">Stage 2: CD (deploy-to-k8s)</h3>
+            <ul>
+                <li>Canary deployment (1 pod)</li>
+                <li>Validate health</li>
+                <li>Rolling deployment (all pods)</li>
+            </ul>
+        </div>
+        <div>
+            <img src="screenshots/pipeline-visual.png" alt="Pipeline Visual" class="screenshot">
+        </div>
+    </div>
+</div>
+
+<!-- Slide 8: Canary Deployment -->
+<div class="slide">
+    <h1>Canary Deployment — Ship with Confidence</h1>
+
+    <table class="comparison-table">
+        <tr>
+            <th>Traditional Deploy</th>
+            <th>Canary Deploy (Harness)</th>
+        </tr>
+        <tr>
+            <td>Deploy to all pods at once</td>
+            <td>Deploy to 1 pod first</td>
+        </tr>
+        <tr>
+            <td>100% blast radius</td>
+            <td>Minimal blast radius</td>
+        </tr>
+        <tr>
+            <td>Manual rollback</td>
+            <td>Automatic rollback</td>
+        </tr>
+        <tr>
+            <td>High risk</td>
+            <td>Low risk</td>
+        </tr>
+    </table>
+
+    <div class="flow-diagram">
+        <p><strong>Canary (1 pod)</strong> <span class="flow-arrow">→</span> <strong>Validate Health</strong> <span class="flow-arrow">→</span> <strong>Full Rollout</strong></p>
+        <p style="margin-top: 15px; color: #ff6b6b;">↓ On Failure → Auto Rollback</p>
+    </div>
+
+    <p class="center" style="color: #606060; font-style: italic;">Used by Netflix, Google, and Amazon for production deployments</p>
+</div>
+
+<!-- Slide 9: Execution Success -->
+<div class="slide">
+    <h1>Pipeline Execution — Success</h1>
+
+    <img src="screenshots/pipeline-executions.png" alt="Pipeline Executions" class="screenshot">
+
+    <div class="two-column" style="margin-top: 30px;">
+        <div class="box">
+            <h3>CI Stage Results</h3>
+            <ul>
+                <li><span class="check">✓</span> Code cloned</li>
+                <li><span class="check">✓</span> Tests passed</li>
+                <li><span class="check">✓</span> Image pushed to DockerHub</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>CD Stage Results</h3>
+            <ul>
+                <li><span class="check">✓</span> Canary deployed</li>
+                <li><span class="check">✓</span> Health validated</li>
+                <li><span class="check">✓</span> Full rollout complete</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 10: Live Application -->
+<div class="slide">
+    <h1>Live Application — Deployed & Running</h1>
+
+    <img src="screenshots/live-app-response.png" alt="Live App Response" class="screenshot">
+
+    <table>
+        <tr>
+            <th>Endpoint</th>
+            <th>Response</th>
+        </tr>
+        <tr>
+            <td>GET /</td>
+            <td><code>{"message":"Welcome to Harness CI Lab!"}</code></td>
+        </tr>
+        <tr>
+            <td>GET /health</td>
+            <td><code>{"status":"healthy","timestamp":"..."}</code></td>
+        </tr>
+        <tr>
+            <td>GET /api/info</td>
+            <td><code>{"app":"harness-ci-lab","version":"1.0.0"}</code></td>
+        </tr>
+    </table>
+
+    <div class="box center">
+        <p><strong>Live URL:</strong><br>
+        <span class="link">http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com</span></p>
+    </div>
+</div>
+
+<!-- Slide 11: Templates -->
+<div class="slide">
+    <h1>Templates — Build Once, Reuse Everywhere</h1>
+
+    <div class="two-column">
+        <div>
+            <h3>Created: nodejs-test-template</h3>
+            <div class="code-block">
+template:<br>
+&nbsp;&nbsp;name: nodejs-test-template<br>
+&nbsp;&nbsp;type: Step<br>
+&nbsp;&nbsp;spec:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;image: node:18<br>
+&nbsp;&nbsp;&nbsp;&nbsp;command: |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;npm install<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;npm test
+            </div>
+        </div>
+        <div>
+            <h3>Enterprise Value</h3>
+            <ul>
+                <li><span class="check">✓</span> <strong>Reusability:</strong> Use in any pipeline</li>
+                <li><span class="check">✓</span> <strong>Standardization:</strong> Consistent testing</li>
+                <li><span class="check">✓</span> <strong>Maintainability:</strong> Update once</li>
+                <li><span class="check">✓</span> <strong>Governance:</strong> Platform team control</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 12: Summary -->
+<div class="slide">
+    <h1>Lab Summary</h1>
+
+    <div class="two-column">
+        <div>
+            <h3>Tasks Completed</h3>
+            <ul>
+                <li><span class="check">✓</span> Kubernetes Cluster (EKS)</li>
+                <li><span class="check">✓</span> Harness Delegate</li>
+                <li><span class="check">✓</span> CI Pipeline</li>
+                <li><span class="check">✓</span> CD Pipeline (Canary)</li>
+                <li><span class="check">✓</span> Templates (Bonus)</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Resources</h3>
+            <table>
+                <tr>
+                    <td>GitHub</td>
+                    <td><span class="link">github.com/aashime/harness-ci-lab</span></td>
+                </tr>
+                <tr>
+                    <td>DockerHub</td>
+                    <td><span class="link">hub.docker.com/r/aashime/harness-ci-lab</span></td>
+                </tr>
+                <tr>
+                    <td>Live App</td>
+                    <td><span class="link">[AWS ELB URL]</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="box center" style="margin-top: 40px;">
+        <h2>Ready for Live Demo Walkthrough</h2>
+    </div>
+</div>
+
+<!-- Slide 13: Thank You -->
+<div class="slide slide-title">
+    <h1>Thank You</h1>
+    <h2>Questions?</h2>
+    <br><br>
+    <h3>Ashime</h3>
+    <p class="link">https://github.com/aashime/harness-ci-lab</p>
+</div>
+
+</body>
+</html>
