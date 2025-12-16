@@ -97,13 +97,15 @@ harness-ci-lab/
 - **Build Namespace**: `harness-builds`
 - **App Namespace**: `default`
 
-## Application Endpoints
+## Live Application
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET /` | Welcome message |
-| `GET /health` | Health check |
-| `GET /api/info` | App information |
+**URL:** http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com
+
+| Endpoint | URL | Description |
+|----------|-----|-------------|
+| `GET /` | [Main](http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com/) | Welcome message |
+| `GET /health` | [Health](http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com/health) | Health check |
+| `GET /api/info` | [API Info](http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com/api/info) | App information |
 
 ## Running Locally
 
