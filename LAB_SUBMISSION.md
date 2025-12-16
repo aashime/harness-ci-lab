@@ -136,16 +136,23 @@ The delegate model is a key Harness differentiator. It runs inside the customer'
 **Value of Connectors:**
 Connectors are configured once and reused across all pipelines. This eliminates credential sprawl and provides centralized management with continuous health validation.
 
+### Connectors Screenshot
+![Connectors](screenshots/connectors.png)
+
 ---
 
-## CI Pipeline Details
+## CI/CD Pipeline
 
 ### Pipeline: `ci-pipeline`
 
-**Stages:**
-1. **build-and-push** (CI Stage)
+The pipeline consists of two stages:
+1. **build-and-push** (CI Stage) - Builds, tests, and pushes Docker image
+2. **deploy-to-k8s** (CD Stage) - Deploys to EKS with canary strategy
 
-**Steps:**
+### Pipeline Visual View
+![Pipeline Visual](screenshots/pipeline-visual.png)
+
+### CI Stage Steps
 
 | Step | Type | Description |
 |------|------|-------------|
@@ -162,19 +169,9 @@ Connectors are configured once and reused across all pipelines. This eliminates 
 - `aashime/harness-ci-lab:latest`
 - `aashime/harness-ci-lab:<pipeline-sequence-id>` (for traceability)
 
-### Screenshot Placeholder: CI Pipeline
-```
-[INSERT SCREENSHOT: CI Pipeline Visual View]
-```
-
-### Screenshot Placeholder: CI Execution Success
-```
-[INSERT SCREENSHOT: Successful CI Pipeline Execution]
-```
-
 ---
 
-## CD Pipeline Details
+## CD Pipeline - Canary Deployment
 
 ### Stage: `deploy-to-k8s`
 
@@ -224,15 +221,19 @@ Connectors are configured once and reused across all pipelines. This eliminates 
 | Environment | `dev` | Pre-Production environment |
 | Infrastructure | `eks-cluster` | Deploys to `default` namespace |
 
-### Screenshot Placeholder: CD Pipeline
-```
-[INSERT SCREENSHOT: CD Pipeline with Canary Steps]
-```
+---
 
-### Screenshot Placeholder: CD Execution Success
-```
-[INSERT SCREENSHOT: Successful CD Pipeline Execution]
-```
+## Pipeline Execution Success
+
+The screenshot below shows successful execution of both CI and CD stages:
+
+![Pipeline Executions](screenshots/pipeline-executions.png)
+
+**Execution Details:**
+- 2 successful pipeline runs
+- CI stage: `build-and-push` completed
+- CD stage: `deploy-to-k8s` deployed to `dev (eks-cluster)`
+- Service: `harness-ci-lab-svc`
 
 ---
 
@@ -279,11 +280,6 @@ template:
 - **Maintainability:** Update once, applies everywhere
 - **Governance:** Platform team can mandate approved templates
 
-### Screenshot Placeholder: Template
-```
-[INSERT SCREENSHOT: Template in Project Settings]
-```
-
 ---
 
 ## Live Application
@@ -296,7 +292,11 @@ template:
 | Health | http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com/health |
 | API Info | http://af8ff179d9b434e3896b72ce0a902e3d-613870465.us-east-1.elb.amazonaws.com/api/info |
 
-### Sample Responses
+### Live Application Response
+
+![Live App Response](screenshots/live-app-response.png)
+
+**Sample Responses:**
 
 **GET /**
 ```json
@@ -306,16 +306,6 @@ template:
 **GET /health**
 ```json
 {"status":"healthy","timestamp":"2025-12-15T23:09:33.626Z"}
-```
-
-**GET /api/info**
-```json
-{"app":"harness-ci-lab","version":"1.0.0","environment":"development"}
-```
-
-### Screenshot Placeholder: Live App
-```
-[INSERT SCREENSHOT: Browser showing app response]
 ```
 
 ---
